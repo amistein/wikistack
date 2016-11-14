@@ -22,7 +22,18 @@ var Page = db.define('page',{
     defaultValue: null
   },
 
-}, {getterMethods: { route:  function() { return "/wiki/" + this.urlTitle; }}} );
+}, 
+  {
+    getterMethods: { 
+      route:  function() { 
+        return "/wiki/" + this.urlTitle; 
+      }
+    }
+});
+
+Page.hook('beforeValidate', function(page) {
+  page.urlTitle = page.title.replace(/[^a-zA-Z\d]/g, '_');
+});
 
 var User = db.define('user', {
   name: {
