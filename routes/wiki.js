@@ -6,7 +6,7 @@ var User = models.User;
 
 router.get('/', function(req,res,next){
 	res.redirect("/");
-
+  
 });
 
 
@@ -19,7 +19,8 @@ router.post('/', function(req,res,next){
   
   page.save()
   .then(function(entry) {
-    res.json(entry);
+    // console.log(entry);
+    res.redirect(entry.route);
   });
 
 });
@@ -35,7 +36,7 @@ router.get('/:url', function(req, res, next) {
     }
   })
   .then(function(entry) {
-    console.log(entry);
+    // console.log(entry);
     res.render('wikipage', {page: entry});
   });
 });
