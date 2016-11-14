@@ -16,6 +16,7 @@ app.engine('html', nunjucks.render);
 app.use(morgan('dev'));
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, '/public')));
 
