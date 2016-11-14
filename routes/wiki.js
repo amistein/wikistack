@@ -6,7 +6,7 @@ var User = models.User;
 
 router.get('/', function(req,res,next){
 	res.redirect("/");
-  
+
 });
 
 
@@ -14,7 +14,8 @@ router.post('/', function(req,res,next){
 	// console.log(req.body);
 	var page = Page.build({
     title: req.body.title,
-    content: req.body.content
+    content: req.body.content,
+
   });
   
   page.save()
