@@ -11,16 +11,25 @@ router.get('/', function(req,res,next){
 
 
 router.post('/', function(req,res,next){
-	// console.log(req.body);
-	var page = Page.build({
+  // res.json(req.body);
+  var page = Page.build({
     title: req.body.title,
     content: req.body.content,
-
   });
+
+  User.findOrCreate({  
+    where: {
+      name: req.body["author-name"],
+      email: req.body["author-email"]
+    }
+  })
+  .then(function(instance) {
+    page.setAuthor(instance[0]);
+  })
+  
   
   page.save()
   .then(function(entry) {
-    // console.log(entry);
     res.redirect(entry.route);
   });
 
@@ -31,15 +40,24 @@ router.get('/add', function(req,res,next){
 });
 
 router.get('/:url', function(req, res, next) {
-  Page.findOne({
+  var entryPromise = Page.findOne({
     where: {
       urlTitle: req.params.url
     }
-  })
-  .then(function(entry) {
-    // console.log(entry);
-    res.render('wikipage', {page: entry});
   });
+
+  var authorPromise = entryPromise.then(entry => entry.getAuthor())
+  
+  Promise.all([entryPromise, authorPromise])
+  .then(function(values) {
+    // console.log('id:', values[1].id);
+    res.render('wikipage', {page: values[0], author: values[1]});
+  });
+
+  // .then(function(entry) {
+  //   console.log('entry:', entry);
+  //   res.render('wikipage', {page: entry});
+  // });
 });
 
 

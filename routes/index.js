@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var wiki = require('./wiki');
+var wikiRouter = require('./wiki');
+var userRouter = require('./user');
 var models = require('../models');
 var Page = models.Page;
 var User = models.User;
@@ -15,13 +16,9 @@ router.get('/', function(req, res, next) {
 
 });
 
-    // "route": "/wiki/Border_Collies",
-    // "id": 1,
-    // "title": "Border Collies",
-    // "urlTitle": "Border_Collies",
-    // "content": "My dog is a border collie.",
+router.use('/wiki', wikiRouter);
 
-router.use('/wiki', wiki);
+router.use('/users', userRouter);
 
 
 module.exports = router;

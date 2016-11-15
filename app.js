@@ -19,12 +19,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, '/public')));
-
 app.use(router);
 
-models.User.sync({ /*force: true */})
+
+models.User.sync({/*force: true*/})
 .then(function() {
-  models.Page.sync({ /*force: true */ })
+  models.Page.sync({/*force: true*/})
 })
 .then(function() {
   app.listen(3000, function() {
